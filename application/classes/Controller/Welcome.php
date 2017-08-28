@@ -14,7 +14,7 @@ class Controller_Welcome extends Controller {
         $client->setAccessType("offline");        // offline access
         $client->setIncludeGrantedScopes(true);   // incremental auth
         $client->addScope('openid profile email https://www.googleapis.com/auth/calendar');
-        $client->setRedirectUri('http://localhost:8001/welcome/authenticateCallback');
+        $client->setRedirectUri(getenv('site_host').'/welcome/authenticateCallback');
         $auth_url = $client->createAuthUrl();
         self::redirect(filter_var($auth_url, FILTER_SANITIZE_URL));
     }
