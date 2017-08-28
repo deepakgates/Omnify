@@ -18,10 +18,10 @@ return array
 			 *
 			 * Ports and sockets may be appended to the hostname.
 			 */
-			'hostname'   => 'localhost',
-			'database'   => 'omnify',
-			'username'   => 'root',
-			'password'   => FALSE,
+			'hostname'   => getenv('db_host'),
+			'database'   => getenv('db_name'),
+			'username'   => getenv('db_username'),
+			'password'   => getenv('db_password'),
 			'persistent' => FALSE,
 		),
 		'table_prefix' => '',
