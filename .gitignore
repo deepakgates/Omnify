@@ -12,5 +12,3 @@ composer.phar
 vendor/*
 .idea/*
 client_secret.json
-modules/database/config/database.php
-modules/database/config/database.php
