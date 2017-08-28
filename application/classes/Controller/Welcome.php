@@ -10,7 +10,7 @@ class Controller_Welcome extends Controller {
     public function action_authenticate()
     {
         $client = new Google_Client();
-        $client->setAuthConfig(__DIR__ . '/../../../client_secret.json');
+        $client->setAuthConfig(json_decode(getenv('client_secret'),true));
         $client->setAccessType("offline");        // offline access
         $client->setIncludeGrantedScopes(true);   // incremental auth
         $client->addScope('openid profile email https://www.googleapis.com/auth/calendar');
@@ -22,7 +22,7 @@ class Controller_Welcome extends Controller {
     public function action_authenticateCallback()
     {
         $client = new Google_Client();
-        $client->setAuthConfig(__DIR__ . '/../../../client_secret.json');
+        $client->setAuthConfig(json_decode(getenv('client_secret'),true));
         $client->setAccessType("offline");        // offline access
         $client->setIncludeGrantedScopes(true);   // incremental auth
         $client->addScope('openid profile email https://www.googleapis.com/auth/calendar');
