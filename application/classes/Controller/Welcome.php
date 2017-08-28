@@ -80,7 +80,7 @@ class Controller_Welcome extends Controller {
         }
 
         $config = Kohana::$config->load('server');
-        self::redirect(filter_var('http://'.$config->get('host').':'.$config->get('port').'/welcome/success/'. $userInfo['email'], FILTER_SANITIZE_URL));
+        self::redirect(filter_var(getenv('site_host').'/welcome/success/'. $userInfo['email'], FILTER_SANITIZE_URL));
 
 
     }
@@ -92,7 +92,7 @@ class Controller_Welcome extends Controller {
             ->find();
         if (!$user->loaded()) {
             $config = Kohana::$config->load('server');
-            self::redirect(filter_var('http://'.$config->get('host').':'.$config->get('port').'/welcome/index', FILTER_SANITIZE_URL));
+            self::redirect(filter_var(getenv('site_host').'/welcome/index', FILTER_SANITIZE_URL));
 
         }
 
