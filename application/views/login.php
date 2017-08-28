@@ -1,0 +1,1 @@
+<a href="/welcome/authenticate">Log In</a>
