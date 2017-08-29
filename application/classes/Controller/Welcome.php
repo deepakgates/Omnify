@@ -77,7 +77,6 @@ class Controller_Welcome extends Controller {
                 }
 
             }
-            $channel->
             // adding channel
             $channel = new Google_Service_Calendar_Channel($client);
             $channel->setId($user->id);
