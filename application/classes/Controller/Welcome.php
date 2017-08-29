@@ -124,6 +124,7 @@ class Controller_Welcome extends Controller {
     {
         ini_set("log_errors", 1);
         error_log('callback response - '.file_get_contents('php://input'));
+        error_log('callback response2 - '.json_encode($this->request->post()));
      }
 
 
