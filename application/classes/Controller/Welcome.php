@@ -126,8 +126,8 @@ class Controller_Welcome extends Controller {
             ->where('channel_id', '=', $_SERVER['HTTP_X_GOOG_CHANNEL_ID'])
             ->find();
         if ($channel->loaded()) {
-            $user = ORM::factory('Use')
-                ->where('channel_id', '=', $channel->user_id)
+            $user = ORM::factory('User')
+                ->where('id', '=', $channel->user_id)
                 ->find();
 
 
@@ -137,6 +137,14 @@ class Controller_Welcome extends Controller {
             $client->setIncludeGrantedScopes(true);   // incremental auth
             $client->addScope('openid profile email https://www.googleapis.com/auth/calendar');
             $client->setAccessToken($user->token);
+            if($client->isAccessTokenExpired()){
+                $decodedToken=json_decode($user->token,true);
+                $client->refreshToken($decodedToken['refresh_token']);
+                $newToken=$client->getAccessToken();
+                $user->token=json_encode($newToken);
+                $user->save();
+            }
+
             $service = new Google_Service_Calendar($client);
             $calendarId = 'primary';
             $optParams = array(
