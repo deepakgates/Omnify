@@ -123,7 +123,7 @@ class Controller_Welcome extends Controller {
     public function action_calendarWebhook()
     {
         ini_set("log_errors", 1);
-        error_log('callback response2 - '.json_encode($_SERVER['X-Goog-Channel-ID']));
+        error_log('callback response2 - '.$_SERVER['X-Goog-Channel-ID']);
      }
 
 
