@@ -77,13 +77,23 @@ class Controller_Welcome extends Controller {
                 }
 
             }
-
+            $channel->
             // adding channel
             $channel = new Google_Service_Calendar_Channel($client);
-            $channel->setId('00000000-0000-0000-0000-000000000001');
+            $channel->setId($user->id);
+            try
+            {
+                $service->channels->stop($channel);
+            }
+            catch(Exception $e)
+            {
+                error_log("Caught exception in killWatch " . $e->getMessage());
+            }
+            
             $channel->setType('web_hook');
             $channel->setAddress(getenv('site_host').'/welcome/calendarWebhook');
             $watchEvent = $service->events->watch('primary', $channel, array());
+
         }
 
 
