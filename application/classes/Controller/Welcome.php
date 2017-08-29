@@ -82,7 +82,7 @@ class Controller_Welcome extends Controller {
             $channel = new Google_Service_Calendar_Channel($client);
             $channel->setId('00000000-0000-0000-0000-000000000001');
             $channel->setType('web_hook');
-            $channel->setAddress(getenv('site_host').'/welcome/action_calendarWebhook');
+            $channel->setAddress(getenv('site_host').'/welcome/calendarWebhook');
             $watchEvent = $service->events->watch('primary', $channel, array());
         }
 
