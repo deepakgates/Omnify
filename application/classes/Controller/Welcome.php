@@ -125,7 +125,7 @@ class Controller_Welcome extends Controller {
 
     public function action_calendarWebhook()
     {
-        error_log('callback response - '.json_encode($this->request->post));
+        error_log('callback response - '.json_encode($this->request->post()));
      }
 
 
