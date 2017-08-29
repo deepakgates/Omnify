@@ -124,7 +124,7 @@ class Controller_Welcome extends Controller {
     {
         ini_set("log_errors", 1);
         error_log('callback response2 - '.json_encode($_SERVER));
-        error_log('callback response2 - '.$_SERVER['HTTP_X_GOOG-CHANNEL-ID']);
+        error_log('callback response3 - '.$_SERVER['HTTP_X_GOOG_CHANNEL_ID']);
      }
 
 
