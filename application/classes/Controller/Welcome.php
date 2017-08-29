@@ -75,7 +75,6 @@ class Controller_Welcome extends Controller {
                     $calendar->user_id = $user->id;
                     $calendar->save();
                 }
-
             }
             // adding channel
 
@@ -122,8 +121,49 @@ class Controller_Welcome extends Controller {
 
     public function action_calendarWebhook()
     {
-        ini_set("log_errors", 1);
-        error_log('callback response2 - '.json_encode($_SERVER));
+//        ini_set("log_errors", 1);
+        $channel = ORM::factory('Channel')
+            ->where('channel_id', '=', $_SERVER['HTTP_X_GOOG_CHANNEL_ID'])
+            ->find();
+        if ($channel->loaded()) {
+            $user = ORM::factory('Use')
+                ->where('channel_id', '=', $channel->user_id)
+                ->find();
+
+
+            $client = new Google_Client();
+            $client->setAuthConfig(json_decode(getenv('client_secret'),true));
+            $client->setAccessType("offline");        // offline access
+            $client->setIncludeGrantedScopes(true);   // incremental auth
+            $client->addScope('openid profile email https://www.googleapis.com/auth/calendar');
+            $client->setAccessToken($user->token);
+            $service = new Google_Service_Calendar($client);
+            $calendarId = 'primary';
+            $optParams = array(
+                'maxResults' => 100,
+                'orderBy' => 'startTime',
+                'singleEvents' => TRUE,
+                'timeMin' => date('c'),
+            );
+            $results = $service->events->listEvents($calendarId, $optParams);
+
+            foreach ($results['items'] as $item){
+                $calendar = ORM::factory('Calendar')
+                    ->where('g_id', '=', $item['id'])
+                    ->find();
+                if (!$calendar->loaded()) {
+                    $calendar = new Model_Calendar();
+                    $calendar->id = $item['email'];
+                    $calendar->title = $item['summary'];
+                    $calendar->g_id = $item['id'];
+                    $calendar->user_id = $user->id;
+                    $calendar->save();
+                }
+            }
+
+
+        }
+
         error_log('callback response3 - '.$_SERVER['HTTP_X_GOOG_CHANNEL_ID']);
      }
 
