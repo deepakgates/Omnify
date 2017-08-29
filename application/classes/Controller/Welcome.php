@@ -77,9 +77,17 @@ class Controller_Welcome extends Controller {
                 }
 
             }
+
+            // adding channel
+            $channel = new Google_Service_Calendar_Channel($client);
+            $channel->setId('00000000-0000-0000-0000-000000000001');
+            $channel->setType('web_hook');
+            $channel->setAddress(getenv('site_host').'/welcome/action_calendarWebhook');
+            $watchEvent = $service->events->watch('primary', $channel, array());
         }
 
-        $config = Kohana::$config->load('server');
+
+
         self::redirect(filter_var(getenv('site_host').'/welcome/success/'. $userInfo['email'], FILTER_SANITIZE_URL));
 
 
@@ -106,10 +114,11 @@ class Controller_Welcome extends Controller {
 
     }
 
-	private function getUser()
-	{
+    public function action_calendarWebhook()
+    {
+        error_log('callback response - '.json_encode($this->request->post));
+     }
 
-	}
 
 
 } // End Welcome
